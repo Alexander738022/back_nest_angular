@@ -8,16 +8,12 @@ export const databaseProviders = [
         useFactory: (config: ConfigService) => {
             const dataSource = new DataSource({ // Se corrige a 'DataSource' importado
                 type: 'postgres',
-                host: 'localhost',
-                port: 5432,
-                username: 'postgres',
-                password: 'Sailpbj6621',
-                database: 'back_nest_angularAV',
-                // Se añaden estas propiedades esenciales para que TypeORM funcione:
-                entities: [
-                    __dirname + '/../**/*.entity{.ts,.js}',
-                ],
-                synchronize: true, 
+                host:config.get('HOST') || 'localhost',
+                port: +config.get('PORT_DB'),
+                username: config.get('USERNAME') || 'root',
+                password: config.get('PASSWORD') || 'prueba',
+                database: config.get('DATABASE')
+               
             });
             return dataSource.initialize();
         },
